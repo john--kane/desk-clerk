@@ -1,0 +1,11 @@
+/node_modules/
+/build/
+/*.zip
+/.wp-env.override.json
+/.idea/
+.DS_Store
+
+*.zip
+docs/
+
+.*/

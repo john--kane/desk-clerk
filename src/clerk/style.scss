@@ -1,0 +1,40 @@
+.clerk-component {
+	max-width: 100%;
+	min-width: 0;
+
+	> [role="status"],
+	> [role="alert"] {
+		margin-block: 0.5em;
+	}
+}
+
+.clerk-show[hidden] {
+	display: none !important;
+}
+
+.clerk-editor-preview {
+	padding: 16px;
+	border: 1px solid #dcdcde;
+	border-top: 0;
+	background: #f6f7f7;
+
+	iframe {
+		display: block;
+		width: 100%;
+		border: 0;
+		background: #fff;
+	}
+}
+
+.clerk-editor-preview-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 12px;
+}
+
+.clerk-editor-preview-help {
+	margin: 12px 0;
+	font-size: 12px;
+	color: #50575e;
+}

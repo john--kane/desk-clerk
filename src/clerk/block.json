@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "clerk/component",
+  "version": "0.2.0",
+  "title": "Clerk Component",
+  "category": "clerk",
+  "icon": "admin-users",
+  "description": "Drop-in Clerk authentication, account, organization, pricing, and waitlist components.",
+  "textdomain": "desk-clerk",
+  "attributes": {
+    "component": {
+      "type": "string",
+      "enum": [
+        "sign-in",
+        "sign-up",
+        "user-button",
+        "user-profile",
+        "organization-switcher",
+        "organization-profile",
+        "pricing-table",
+        "organization-list",
+        "create-organization",
+        "waitlist",
+        "google-one-tap"
+      ],
+      "default": "sign-in"
+    },
+    "for": {
+      "type": "string",
+      "enum": [
+        "user",
+        "organization"
+      ],
+      "default": "user"
+    }
+  },
+  "supports": {
+    "html": false,
+    "inserter": false
+  },
+  "editorScript": "file:./index.js",
+  "viewScript": "file:./view.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

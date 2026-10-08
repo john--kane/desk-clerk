@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "clerk/organization-profile",
+  "version": "0.2.0",
+  "title": "Clerk Organization Profile",
+  "category": "clerk",
+  "icon": "building",
+  "description": "Manage the active Clerk organization.",
+  "textdomain": "desk-clerk",
+  "attributes": {},
+  "supports": {
+    "html": false
+  },
+  "editorScript": "clerk-component-editor-script",
+  "viewScript": "clerk-component-view-script",
+  "style": "clerk-component-style",
+  "editorStyle": "clerk-component-editor-style"
+}

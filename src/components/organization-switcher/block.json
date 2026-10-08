@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "clerk/organization-switcher",
+  "version": "0.2.0",
+  "title": "Clerk Organization Switcher",
+  "category": "clerk",
+  "icon": "randomize",
+  "description": "Let signed-in visitors choose an active Clerk organization.",
+  "textdomain": "desk-clerk",
+  "attributes": {},
+  "supports": {
+    "html": false
+  },
+  "editorScript": "clerk-component-editor-script",
+  "viewScript": "clerk-component-view-script",
+  "style": "clerk-component-style",
+  "editorStyle": "clerk-component-editor-style"
+}

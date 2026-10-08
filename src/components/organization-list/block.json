@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "clerk/organization-list",
+  "version": "0.2.0",
+  "title": "Clerk Organization List",
+  "category": "clerk",
+  "icon": "list-view",
+  "description": "List and select the visitor\u2019s Clerk organizations.",
+  "textdomain": "desk-clerk",
+  "attributes": {},
+  "supports": {
+    "html": false
+  },
+  "editorScript": "clerk-component-editor-script",
+  "viewScript": "clerk-component-view-script",
+  "style": "clerk-component-style",
+  "editorStyle": "clerk-component-editor-style"
+}

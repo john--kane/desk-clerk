@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "clerk/user-profile",
+  "version": "0.2.0",
+  "title": "Clerk User Profile",
+  "category": "clerk",
+  "icon": "id",
+  "description": "Let signed-in visitors manage their Clerk account.",
+  "textdomain": "desk-clerk",
+  "attributes": {},
+  "supports": {
+    "html": false
+  },
+  "editorScript": "clerk-component-editor-script",
+  "viewScript": "clerk-component-view-script",
+  "style": "clerk-component-style",
+  "editorStyle": "clerk-component-editor-style"
+}

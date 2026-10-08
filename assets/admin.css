@@ -1,0 +1,163 @@
+.clerk-settings {
+	max-width: 1040px;
+}
+
+.clerk-settings-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	padding-top: 1rem;
+}
+
+.clerk-settings-intro {
+	flex: 1;
+	min-width: 0;
+}
+
+.clerk-settings-intro h1 {
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+}
+
+.clerk-settings-logo {
+	display: block;
+	width: 180px;
+	max-width: 100%;
+	height: auto;
+}
+
+.clerk-settings-coffee {
+	flex-shrink: 0;
+}
+
+.clerk-settings-coffee a,
+.clerk-settings-coffee img {
+	display: block;
+}
+
+.clerk-settings-coffee img {
+	width: 145px;
+	max-width: 100%;
+	height: auto;
+}
+
+.clerk-settings-section {
+	margin: 20px 0;
+	padding: 24px;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	background: #fff;
+}
+
+.clerk-settings-section h2 {
+	margin: 0 0 10px;
+	font-size: 18px;
+}
+
+.clerk-settings-section > p {
+	max-width: 80ch;
+	color: #50575e;
+}
+
+.clerk-settings-group {
+	margin-top: 20px;
+	border-top: 1px solid #f0f0f1;
+	padding-top: 16px;
+}
+
+.clerk-settings summary {
+	cursor: pointer;
+	color: #1d2327;
+	font-size: 14px;
+}
+
+.clerk-settings summary:focus-visible {
+	outline: 2px solid #2271b1;
+	outline-offset: 4px;
+}
+
+details.clerk-settings-section > summary h2 {
+	display: inline;
+}
+
+.clerk-settings .form-table {
+	margin-top: 16px;
+}
+
+.clerk-settings .form-table tbody {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 24px 32px;
+}
+
+.clerk-settings .form-table tr {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.clerk-settings .form-table th,
+.clerk-settings .form-table td {
+	display: block;
+	width: auto;
+	margin: 0;
+	padding: 0;
+}
+
+.clerk-settings .form-table input.regular-text,
+.clerk-settings .form-table select {
+	width: 100%;
+	max-width: 100%;
+}
+
+.clerk-settings .form-table .description {
+	margin-top: 8px;
+	font-size: 12px;
+}
+
+.clerk-settings .clerk-settings-general tbody {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.clerk-settings .clerk-settings-general select {
+	max-width: 440px;
+}
+
+.clerk-settings .wp-picker-container {
+	max-width: 100%;
+}
+
+.clerk-settings #clerk-key {
+	font-family: monospace;
+}
+
+.clerk-settings ul {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px 24px;
+}
+
+.clerk-settings code {
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 782px) {
+
+	.clerk-settings-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+	}
+
+	.clerk-settings-section {
+		padding: 18px;
+	}
+
+	.clerk-settings .form-table tbody,
+	.clerk-settings ul {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

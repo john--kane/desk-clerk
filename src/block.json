@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "plugin-template/message",
+  "version": "0.1.0",
+  "title": "Template Message",
+  "category": "text",
+  "icon": "admin-comments",
+  "description": "An editable message to demonstrate the plugin build workflow.",
+  "textdomain": "desk-clerk",
+  "attributes": {
+    "content": {
+      "type": "string",
+      "source": "html",
+      "selector": "p",
+      "default": ""
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css"
+}

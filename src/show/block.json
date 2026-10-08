@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "clerk/show",
+  "version": "0.2.0",
+  "title": "Clerk Show",
+  "category": "clerk",
+  "icon": "visibility",
+  "description": "Show nested blocks to signed-in or signed-out Clerk visitors. Visibility only; content remains public.",
+  "textdomain": "desk-clerk",
+  "attributes": {
+    "condition": {
+      "type": "string",
+      "enum": [
+        "signed-in",
+        "signed-out"
+      ],
+      "default": "signed-in"
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css"
+}
