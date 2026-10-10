@@ -26,13 +26,13 @@ const components = new Map( [
 ] );
 
 /**
- * One runtime owns all containers, scripts, and the Clerk session subscription.
+ * One runtime owns all containers and the Clerk session subscription.
+ * WordPress owns script loading.
  *
  * @param {Object} config Validated public configuration from WordPress.
  */
 export function createRuntime( config ) {
 	const records = new Map();
-	const scriptLoads = new Map();
 	let clerk;
 	let initialization;
 	let unsubscribe;
@@ -139,8 +139,14 @@ export function createRuntime( config ) {
 			node,
 			key,
 			config.messages.error,
-			config.messages.retry,
+			! serviceAssetsReady()
+				? config.messages.reload
+				: config.messages.retry,
 			() => {
+				if ( ! serviceAssetsReady() ) {
+					window.location.reload();
+					return;
+				}
 				release( node );
 				if ( ! clerk ) {
 					initialization = null;
@@ -151,56 +157,64 @@ export function createRuntime( config ) {
 		);
 	}
 
-	function loadScript( url, sdk = false ) {
-		if ( scriptLoads.has( url ) ) {
-			return scriptLoads.get( url );
+	function serviceAssetsReady() {
+		return (
+			window.Clerk &&
+			window.__internal_ClerkUICtor &&
+			( ! window.Clerk.publishableKey ||
+				window.Clerk.publishableKey === config.publishableKey )
+		);
+	}
+
+	function waitForServiceScripts() {
+		if ( window.Clerk && window.__internal_ClerkUICtor ) {
+			return Promise.resolve();
 		}
-		const pending = new Promise( ( resolve, reject ) => {
-			const script = document.createElement( 'script' );
-			script.src = url;
-			script.async = true;
-			script.crossOrigin = 'anonymous';
-			if ( sdk ) {
-				script.dataset.clerkPublishableKey = config.publishableKey;
-			}
+		const scripts = [ 'ui', 'sdk' ].map( ( name ) =>
+			document.getElementById( `plugin-template-clerk-${ name }-js` )
+		);
+		if ( scripts.some( ( script ) => ! script ) ) {
+			return Promise.reject(
+				new Error( 'Clerk service scripts unavailable' )
+			);
+		}
+		return new Promise( ( resolve, reject ) => {
 			const timeout = setTimeout(
-				() => finish( new Error( 'Clerk script timed out' ) ),
+				() => finish( new Error( 'Clerk scripts timed out' ) ),
 				20000
 			);
 			function finish( error ) {
 				clearTimeout( timeout );
-				script.onload = null;
-				script.onerror = null;
+				for ( const script of scripts ) {
+					script.removeEventListener( 'load', loaded );
+					script.removeEventListener( 'error', failedScript );
+				}
 				if ( error ) {
-					script.remove();
-					scriptLoads.delete( url );
 					reject( error );
 				} else {
 					resolve();
 				}
 			}
-			script.onload = () => finish();
-			script.onerror = () => finish( new Error( 'Clerk script failed' ) );
-			document.head.appendChild( script );
+			function loaded() {
+				if ( window.Clerk && window.__internal_ClerkUICtor ) {
+					finish();
+				}
+			}
+			function failedScript() {
+				finish( new Error( 'Clerk script failed' ) );
+			}
+			for ( const script of scripts ) {
+				script.addEventListener( 'load', loaded );
+				script.addEventListener( 'error', failedScript );
+			}
 		} );
-		scriptLoads.set( url, pending );
-		return pending;
 	}
 
 	async function initialize() {
-		if ( ! window.__internal_ClerkUICtor ) {
-			await loadScript( config.uiUrl );
-		}
-		if ( ! window.Clerk ) {
-			await loadScript( config.sdkUrl, true );
-		}
+		// WordPress owns the tags; retain timeout/error handling for async downloads.
+		await waitForServiceScripts();
 		const sdk = window.Clerk;
-		if (
-			! sdk ||
-			! window.__internal_ClerkUICtor ||
-			( sdk.publishableKey &&
-				sdk.publishableKey !== config.publishableKey )
-		) {
+		if ( ! serviceAssetsReady() ) {
 			throw new Error( 'Clerk SDK configuration mismatch' );
 		}
 		const theme = themes.get( config.theme );

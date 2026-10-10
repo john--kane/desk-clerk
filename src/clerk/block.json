@@ -2,12 +2,12 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "clerk/component",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "title": "Clerk Component",
   "category": "clerk",
   "icon": "admin-users",
   "description": "Drop-in Clerk authentication, account, organization, pricing, and waitlist components.",
-  "textdomain": "desk-clerk",
+  "textdomain": "visitor-components-for-clerk",
   "attributes": {
     "component": {
       "type": "string",

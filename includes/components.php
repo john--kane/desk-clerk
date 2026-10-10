@@ -12,21 +12,43 @@ function plugin_template_clerk_components() {
 function plugin_template_clerk_block_categories( $categories ) {
 	$categories[] = array(
 		'slug' => 'clerk',
-		'title' => __( 'Clerk', 'desk-clerk' ),
+		'title' => __( 'Clerk', 'visitor-components-for-clerk' ),
 	);
 	return $categories;
 }
 add_filter( 'block_categories_all', 'plugin_template_clerk_block_categories' );
 
+/** WordPress owns service scripts and their public SDK attributes. */
+function plugin_template_clerk_service_script_tag( $tag, $handle ) {
+	if ( ! in_array( $handle, array( 'plugin-template-clerk-ui', 'plugin-template-clerk-sdk' ), true ) ) {
+		return $tag;
+	}
+	$processor = new WP_HTML_Tag_Processor( $tag );
+	if ( $processor->next_tag( 'script' ) ) {
+		$processor->set_attribute( 'crossorigin', 'anonymous' );
+		if ( 'plugin-template-clerk-sdk' === $handle ) {
+			$config = plugin_template_clerk_config();
+			if ( $config ) {
+				$processor->set_attribute( 'data-clerk-publishable-key', $config['publishableKey'] );
+			}
+		}
+	}
+	return $processor->get_updated_html();
+}
+add_filter( 'script_loader_tag', 'plugin_template_clerk_service_script_tag', 10, 2 );
+
 /** Share one configuration and asset owner across components and Show blocks. */
 function plugin_template_clerk_enqueue() {
 	$config = plugin_template_clerk_config();
 	if ( ! $config ) {
-		return new WP_Error( 'clerk_unconfigured', __( 'Clerk is not configured. Please contact the site administrator.', 'desk-clerk' ) );
+		return new WP_Error( 'clerk_unconfigured', __( 'Clerk is not configured. Please contact the site administrator.', 'visitor-components-for-clerk' ) );
 	}
 	if ( ! wp_script_is( 'clerk-component-view-script', 'registered' ) ) {
-		return new WP_Error( 'clerk_assets', __( 'Clerk component assets are unavailable. Please contact the site administrator.', 'desk-clerk' ) );
+		return new WP_Error( 'clerk_assets', __( 'Clerk component assets are unavailable. Please contact the site administrator.', 'visitor-components-for-clerk' ) );
 	}
+	// These independent bundles may arrive in either order; the runtime waits for both.
+	wp_enqueue_script( 'plugin-template-clerk-ui', $config['uiUrl'], array(), '1.39.0', array( 'in_footer' => true, 'strategy' => 'async' ) );
+	wp_enqueue_script( 'plugin-template-clerk-sdk', $config['sdkUrl'], array(), '6.38.0', array( 'in_footer' => true, 'strategy' => 'async' ) );
 	wp_enqueue_script( 'clerk-component-view-script' );
 	wp_enqueue_style( 'clerk-component-style' );
 	static $configured = false;

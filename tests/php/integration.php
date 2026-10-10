@@ -165,6 +165,12 @@ try {
 	clerk_check( do_shortcode( '[clerk component="bad"]' ) === '', 'Unknown component must not render.' );
 	clerk_check( plugin_template_clerk_render( array( 'component' => '"><script>alert(1)</script>' ) ) === '', 'Reject injected attributes.' );
 	clerk_check( plugin_template_clerk_render( array( 'component' => array() ) ) === '', 'Reject non-string component attributes.' );
+	clerk_check( wp_script_is( 'plugin-template-clerk-ui', 'enqueued' ) && wp_script_is( 'plugin-template-clerk-sdk', 'enqueued' ), 'WordPress enqueues both external service assets.' );
+	$scripts = wp_scripts();
+	clerk_check( $scripts->get_data( 'plugin-template-clerk-ui', 'strategy' ) === 'async', 'Clerk UI loads asynchronously through WordPress.' );
+	clerk_check( $scripts->get_data( 'plugin-template-clerk-sdk', 'strategy' ) === 'async', 'Clerk SDK loads asynchronously through WordPress.' );
+	$tag = apply_filters( 'script_loader_tag', '<script src="example.js"></script>', 'plugin-template-clerk-sdk', $scripts->registered['plugin-template-clerk-sdk']->src );
+	clerk_check( str_contains( $tag, 'data-clerk-publishable-key="' . esc_attr( $key ) . '"' ) && str_contains( $tag, 'crossorigin="anonymous"' ), 'WordPress SDK output carries the public key and crossorigin attribute.' );
 	clerk_check( wp_script_is( 'clerk-component-view-script', 'enqueued' ), 'Shortcodes enqueue the frontend runtime.' );
 	$a = plugin_template_clerk_render( array( 'component' => 'user-button' ) );
 	$b = plugin_template_clerk_render( array( 'component' => 'user-button' ) );

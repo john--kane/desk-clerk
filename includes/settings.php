@@ -55,19 +55,19 @@ function plugin_template_clerk_sanitize_key( $value ) {
 	if ( '' === $key || false !== plugin_template_clerk_parse_key( $key ) ) {
 		return $key;
 	}
-	add_settings_error( 'plugin_template_clerk_key', 'invalid_key', __( 'Enter a valid Clerk publishable key (pk_test_ or pk_live_). The previous setting was preserved.', 'desk-clerk' ) );
+	add_settings_error( 'plugin_template_clerk_key', 'invalid_key', __( 'Enter a valid Clerk publishable key (pk_test_ or pk_live_). The previous setting was preserved.', 'visitor-components-for-clerk' ) );
 	return $previous;
 }
 
 /** Supported preset identifiers, matching Clerk's official theme exports. */
 function plugin_template_clerk_themes() {
 	return array(
-		'default'        => __( 'Default', 'desk-clerk' ),
-		'simple'         => __( 'Simple', 'desk-clerk' ),
-		'dark'           => __( 'Dark', 'desk-clerk' ),
-		'shadesOfPurple' => __( 'Shades of Purple', 'desk-clerk' ),
-		'neobrutalism'   => __( 'Neobrutalism', 'desk-clerk' ),
-		'shadcn'         => __( 'shadcn (requires compatible site styles)', 'desk-clerk' ),
+		'default'        => __( 'Default', 'visitor-components-for-clerk' ),
+		'simple'         => __( 'Simple', 'visitor-components-for-clerk' ),
+		'dark'           => __( 'Dark', 'visitor-components-for-clerk' ),
+		'shadesOfPurple' => __( 'Shades of Purple', 'visitor-components-for-clerk' ),
+		'neobrutalism'   => __( 'Neobrutalism', 'visitor-components-for-clerk' ),
+		'shadcn'         => __( 'shadcn (requires compatible site styles)', 'visitor-components-for-clerk' ),
 	);
 }
 
@@ -84,7 +84,7 @@ function plugin_template_clerk_sanitize_theme( $value ) {
 	if ( is_string( $value ) && isset( plugin_template_clerk_themes()[ $value ] ) ) {
 		return $value;
 	}
-	add_settings_error( 'plugin_template_clerk_theme', 'invalid_theme', __( 'Select a supported Clerk theme. The previous selection was preserved.', 'desk-clerk' ) );
+	add_settings_error( 'plugin_template_clerk_theme', 'invalid_theme', __( 'Select a supported Clerk theme. The previous selection was preserved.', 'visitor-components-for-clerk' ) );
 	return $previous;
 }
 
@@ -100,7 +100,7 @@ function plugin_template_clerk_sanitize_localization( $value ) {
 	if ( in_array( $value, array( true, false, 1, 0, '1', '0' ), true ) ) {
 		return in_array( $value, array( true, 1, '1' ), true );
 	}
-	add_settings_error( 'plugin_template_clerk_localization', 'invalid_localization', __( 'Choose whether to enable Clerk localization. The previous setting was preserved.', 'desk-clerk' ) );
+	add_settings_error( 'plugin_template_clerk_localization', 'invalid_localization', __( 'Choose whether to enable Clerk localization. The previous setting was preserved.', 'visitor-components-for-clerk' ) );
 	return $previous;
 }
 
@@ -122,15 +122,16 @@ function plugin_template_clerk_config() {
 		'uiUrl'          => 'https://' . $host . '/npm/@clerk/ui@1.39.0/dist/ui.browser.js',
 		'sdkUrl'         => 'https://' . $host . '/npm/@clerk/clerk-js@6.38.0/dist/clerk.browser.js',
 		'messages'       => array(
-			'loading'      => __( 'Loading Clerk…', 'desk-clerk' ),
-			'error'        => __( 'Unable to load this Clerk component. Please try again.', 'desk-clerk' ),
-			'retry'        => __( 'Retry', 'desk-clerk' ),
-			'signIn'       => __( 'Sign in', 'desk-clerk' ),
-			'signedIn'     => __( 'You are signed in.', 'desk-clerk' ),
-			'organization' => __( 'Select an organization using an Organization Switcher first.', 'desk-clerk' ),
-			'oneTap'       => __( 'Google One Tap is available when enabled in Clerk and supported by your browser. Your browser may suppress the prompt.', 'desk-clerk' ),
-			'billing'      => __( 'Pricing plans are not available. Please contact the site administrator.', 'desk-clerk' ),
-			'billingSetup' => __( 'Enable Clerk Billing and publish plans in your Clerk Dashboard, then refresh this preview.', 'desk-clerk' ),
+			'loading'      => __( 'Loading Clerk…', 'visitor-components-for-clerk' ),
+			'error'        => __( 'Unable to load this Clerk component. Please try again.', 'visitor-components-for-clerk' ),
+			'reload'       => __( 'Reload page', 'visitor-components-for-clerk' ),
+			'retry'        => __( 'Retry', 'visitor-components-for-clerk' ),
+			'signIn'       => __( 'Sign in', 'visitor-components-for-clerk' ),
+			'signedIn'     => __( 'You are signed in.', 'visitor-components-for-clerk' ),
+			'organization' => __( 'Select an organization using an Organization Switcher first.', 'visitor-components-for-clerk' ),
+			'oneTap'       => __( 'Google One Tap is available when enabled in Clerk and supported by your browser. Your browser may suppress the prompt.', 'visitor-components-for-clerk' ),
+			'billing'      => __( 'Pricing plans are not available. Please contact the site administrator.', 'visitor-components-for-clerk' ),
+			'billingSetup' => __( 'Enable Clerk Billing and publish plans in your Clerk Dashboard, then refresh this preview.', 'visitor-components-for-clerk' ),
 		),
 	);
 }
@@ -183,13 +184,14 @@ function plugin_template_clerk_settings_page() {
 	<div class="wrap clerk-settings">
 		<div class="clerk-settings-header">
 			<div class="clerk-settings-intro">
-				<h1><img class="clerk-settings-logo" src="<?php echo esc_url( plugins_url( 'assets/logo.png', dirname( __DIR__ ) . '/plugin-template.php' ) ); ?>" alt="<?php esc_attr_e( 'Desk Clerk', 'desk-clerk' ); ?>" width="518" height="107" /></h1>
+				<h1><img class="clerk-settings-logo" src="<?php echo esc_url( plugins_url( 'assets/logo.png', dirname( __DIR__ ) . '/plugin-template.php' ) ); ?>" alt="<?php esc_attr_e( 'Visitor Components for Clerk', 'visitor-components-for-clerk' ); ?>" width="518" height="107" /></h1>
 			</div>
 			<div class="clerk-settings-coffee">
-				<a href="https://buymeacoffee.com/johnkane" target="_blank" rel="noopener noreferrer"><img src="<?php echo esc_url( plugins_url( 'assets/donation-button.svg', dirname( __DIR__ ) . '/plugin-template.php' ) ); ?>" alt="<?php esc_attr_e( 'Buy me a coffee', 'desk-clerk' ); ?>" width="227" height="64" /><span class="screen-reader-text"><?php esc_html_e( '(opens in a new tab)', 'desk-clerk' ); ?></span></a>
+				<a href="https://buymeacoffee.com/johnkane" target="_blank" rel="noopener noreferrer"><img src="<?php echo esc_url( plugins_url( 'assets/donation-button.svg', dirname( __DIR__ ) . '/plugin-template.php' ) ); ?>" alt="<?php esc_attr_e( 'Buy me a coffee', 'visitor-components-for-clerk' ); ?>" width="227" height="64" /><span class="screen-reader-text"><?php esc_html_e( '(opens in a new tab)', 'visitor-components-for-clerk' ); ?></span></a>
 			</div>
 		</div>
-		<p><?php esc_html_e( 'Connect your Clerk application to visitor-facing blocks and shortcodes. WordPress accounts and login remain separate.', 'desk-clerk' ); ?></p>
+		<p><?php esc_html_e( 'Connect your Clerk application to visitor-facing blocks and shortcodes. WordPress accounts and login remain separate.', 'visitor-components-for-clerk' ); ?></p>
+		<p><?php esc_html_e( 'An independent integration by John Kane. Not affiliated with, endorsed by, or maintained by Clerk.', 'visitor-components-for-clerk' ); ?></p>
 		<?php settings_errors( 'plugin_template_clerk_key' ); ?>
 		<?php settings_errors( 'plugin_template_clerk_theme' ); ?>
 		<?php settings_errors( 'plugin_template_clerk_variables' ); ?>
@@ -199,58 +201,58 @@ function plugin_template_clerk_settings_page() {
 		<form action="options.php" method="post">
 			<?php settings_fields( 'plugin_template_clerk' ); ?>
 			<section class="clerk-settings-section" aria-labelledby="clerk-general-title">
-			<h2 id="clerk-general-title"><?php esc_html_e( 'General', 'desk-clerk' ); ?></h2>
-			<p><?php esc_html_e( 'Connect your Clerk application and choose the starting appearance for all visitor components.', 'desk-clerk' ); ?></p>
+			<h2 id="clerk-general-title"><?php esc_html_e( 'General', 'visitor-components-for-clerk' ); ?></h2>
+			<p><?php esc_html_e( 'Connect your Clerk application and choose the starting appearance for all visitor components.', 'visitor-components-for-clerk' ); ?></p>
 			<table class="form-table clerk-settings-general" role="presentation"><tr>
-				<th scope="row"><label for="clerk-key"><?php esc_html_e( 'Publishable key', 'desk-clerk' ); ?></label></th>
+				<th scope="row"><label for="clerk-key"><?php esc_html_e( 'Publishable key', 'visitor-components-for-clerk' ); ?></label></th>
 				<td><input id="clerk-key" name="plugin_template_clerk_key" type="text" class="large-text code" value="<?php echo esc_attr( get_option( 'plugin_template_clerk_key', '' ) ); ?>" aria-describedby="clerk-key-help" autocomplete="off" spellcheck="false" />
-				<p id="clerk-key-help" class="description"><?php esc_html_e( 'Copy pk_test_ or pk_live_ from your Clerk Dashboard. Never enter a secret key. Configure your production domain in Clerk before going live. Clear this field to disconnect.', 'desk-clerk' ); ?></p></td>
+				<p id="clerk-key-help" class="description"><?php esc_html_e( 'Copy pk_test_ or pk_live_ from your Clerk Dashboard. Never enter a secret key. Configure your production domain in Clerk before going live. Clear this field to disconnect.', 'visitor-components-for-clerk' ); ?></p></td>
 			</tr><tr>
-				<th scope="row"><label for="clerk-theme"><?php esc_html_e( 'Theme', 'desk-clerk' ); ?></label></th>
+				<th scope="row"><label for="clerk-theme"><?php esc_html_e( 'Theme', 'visitor-components-for-clerk' ); ?></label></th>
 				<td><select id="clerk-theme" name="plugin_template_clerk_theme" aria-describedby="clerk-theme-help">
 					<?php foreach ( plugin_template_clerk_themes() as $theme => $label ) : ?>
 						<option value="<?php echo esc_attr( $theme ); ?>" <?php selected( plugin_template_clerk_theme(), $theme ); ?>><?php echo esc_html( $label ); ?></option>
 					<?php endforeach; ?>
 				</select>
-				<p id="clerk-theme-help" class="description"><?php esc_html_e( 'Applies to all Clerk components and dialogs. Default uses Clerk’s built-in appearance. The shadcn preset requires your WordPress theme to provide compatible shadcn CSS variables and utility styles.', 'desk-clerk' ); ?></p></td>
+				<p id="clerk-theme-help" class="description"><?php esc_html_e( 'Applies to all Clerk components and dialogs. Default uses Clerk’s built-in appearance. The shadcn preset requires your WordPress theme to provide compatible shadcn CSS variables and utility styles.', 'visitor-components-for-clerk' ); ?></p></td>
 			</tr></table>
 			</section>
 			<?php plugin_template_clerk_appearance_fields(); ?>
 			<?php plugin_template_clerk_options_fields(); ?>
 			<?php plugin_template_clerk_options_fields( true ); ?>
 			<section class="clerk-settings-section" aria-labelledby="clerk-experimental-title">
-			<h2 id="clerk-experimental-title"><?php esc_html_e( 'Experimental', 'desk-clerk' ); ?></h2>
+			<h2 id="clerk-experimental-title"><?php esc_html_e( 'Experimental', 'visitor-components-for-clerk' ); ?></h2>
 			<table class="form-table" role="presentation"><tr>
-				<th scope="row"><?php esc_html_e( 'Localization', 'desk-clerk' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Localization', 'visitor-components-for-clerk' ); ?></th>
 				<td>
 					<input type="hidden" name="plugin_template_clerk_localization" value="0" />
-					<label for="clerk-localization"><input id="clerk-localization" type="checkbox" name="plugin_template_clerk_localization" value="1" <?php checked( plugin_template_clerk_localization_enabled() ); ?> aria-describedby="clerk-localization-help" /> <?php esc_html_e( 'Use the WordPress language for Clerk components (experimental)', 'desk-clerk' ); ?></label>
-					<p id="clerk-localization-help" class="description"><?php esc_html_e( 'Uses Site Language under Settings → General, or the current page language supplied by a multilingual plugin. Applies to components, dialogs, and live editor previews. Unsupported languages fall back to English. Clerk’s hosted Account Portal remains in English. Translations are experimental and may change; save and reload to apply.', 'desk-clerk' ); ?> <a href="https://clerk.com/docs/guides/customizing-clerk/localization" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Clerk localization documentation', 'desk-clerk' ); ?></a></p>
+					<label for="clerk-localization"><input id="clerk-localization" type="checkbox" name="plugin_template_clerk_localization" value="1" <?php checked( plugin_template_clerk_localization_enabled() ); ?> aria-describedby="clerk-localization-help" /> <?php esc_html_e( 'Use the WordPress language for Clerk components (experimental)', 'visitor-components-for-clerk' ); ?></label>
+					<p id="clerk-localization-help" class="description"><?php esc_html_e( 'Uses Site Language under Settings → General, or the current page language supplied by a multilingual plugin. Applies to components, dialogs, and live editor previews. Unsupported languages fall back to English. Clerk’s hosted Account Portal remains in English. Translations are experimental and may change; save and reload to apply.', 'visitor-components-for-clerk' ); ?> <a href="https://clerk.com/docs/guides/customizing-clerk/localization" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Clerk localization documentation', 'visitor-components-for-clerk' ); ?></a></p>
 				</td>
 			</tr></table>
 			</section>
 			<?php submit_button(); ?>
 		</form>
 		<section class="clerk-settings-section" aria-labelledby="clerk-placement-title">
-		<h2 id="clerk-placement-title"><?php esc_html_e( 'Place components', 'desk-clerk' ); ?></h2>
-		<p><?php esc_html_e( 'Search for Clerk in the block inserter and add a control such as Clerk Organization Profile, or use these shortcodes in any shortcode-enabled area:', 'desk-clerk' ); ?></p>
+		<h2 id="clerk-placement-title"><?php esc_html_e( 'Place components', 'visitor-components-for-clerk' ); ?></h2>
+		<p><?php esc_html_e( 'Search for Clerk in the block inserter and add a control such as Clerk Organization Profile, or use these shortcodes in any shortcode-enabled area:', 'visitor-components-for-clerk' ); ?></p>
 		<ul><?php foreach ( plugin_template_clerk_components() as $name ) : ?>
 			<li><code><?php echo esc_html( '[clerk component="' . $name . '"]' ); ?></code></li>
 		<?php endforeach; ?></ul>
 		<p><code>[clerk component="pricing-table" for="organization"]</code></p>
-		<p><?php esc_html_e( 'Pricing Table requires Clerk Billing and published plans; Waitlist requires Waitlist mode; Google One Tap requires Google and Google One Tap enabled in Clerk and a supported browser; organization components require Organizations enabled in Clerk.', 'desk-clerk' ); ?></p>
-		<p><?php esc_html_e( 'Use the Clerk Show block to group content for signed-in or signed-out visitors. Visibility only: nested content remains in public page HTML. Preview published pages to use live components.', 'desk-clerk' ); ?></p>
+		<p><?php esc_html_e( 'Pricing Table requires Clerk Billing and published plans; Waitlist requires Waitlist mode; Google One Tap requires Google and Google One Tap enabled in Clerk and a supported browser; organization components require Organizations enabled in Clerk.', 'visitor-components-for-clerk' ); ?></p>
+		<p><?php esc_html_e( 'Use the Clerk Show block to group content for signed-in or signed-out visitors. Visibility only: nested content remains in public page HTML. Preview published pages to use live components.', 'visitor-components-for-clerk' ); ?></p>
 		</section>
 		<section class="clerk-settings-section" aria-labelledby="clerk-support-title">
-		<h2 id="clerk-support-title"><?php esc_html_e( 'Support development', 'desk-clerk' ); ?></h2>
-		<p><?php esc_html_e( 'Enjoy using Desk Clerk? Support its development with a coffee.', 'desk-clerk' ); ?></p>
-		<a class="button button-secondary" href="https://buymeacoffee.com/johnkane" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Buy me a coffee', 'desk-clerk' ); ?> <span class="screen-reader-text"><?php esc_html_e( '(opens in a new tab)', 'desk-clerk' ); ?></span></a>
+		<h2 id="clerk-support-title"><?php esc_html_e( 'Support development', 'visitor-components-for-clerk' ); ?></h2>
+		<p><?php esc_html_e( 'Enjoy using Visitor Components for Clerk? Support its development with a coffee.', 'visitor-components-for-clerk' ); ?></p>
+		<a class="button button-secondary" href="https://buymeacoffee.com/johnkane" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Buy me a coffee', 'visitor-components-for-clerk' ); ?> <span class="screen-reader-text"><?php esc_html_e( '(opens in a new tab)', 'visitor-components-for-clerk' ); ?></span></a>
 		</section>
 	</div>
 	<?php
 }
 
 function plugin_template_clerk_admin_menu() {
-	add_options_page( __( 'Desk Clerk', 'desk-clerk' ), __( 'Desk Clerk', 'desk-clerk' ), 'manage_options', 'plugin-template-clerk', 'plugin_template_clerk_settings_page' );
+	add_options_page( __( 'Visitor Components for Clerk', 'visitor-components-for-clerk' ), __( 'Visitor Components for Clerk', 'visitor-components-for-clerk' ), 'manage_options', 'plugin-template-clerk', 'plugin_template_clerk_settings_page' );
 }
 add_action( 'admin_menu', 'plugin_template_clerk_admin_menu' );

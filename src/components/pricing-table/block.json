@@ -2,12 +2,12 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "clerk/pricing-table",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "title": "Clerk Pricing Table",
   "category": "clerk",
   "icon": "money-alt",
   "description": "Display published Clerk Billing plans for users or organizations.",
-  "textdomain": "desk-clerk",
+  "textdomain": "visitor-components-for-clerk",
   "attributes": {
     "for": {
       "type": "string",

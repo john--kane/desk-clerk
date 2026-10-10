@@ -6,19 +6,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function plugin_template_clerk_variable_fields() {
 	return array(
-		'colorPrimary'           => array( 'label' => __( 'Primary color', 'desk-clerk' ), 'type' => 'color', 'example' => '#6c47ff' ),
-		'colorPrimaryForeground' => array( 'label' => __( 'Text on primary color', 'desk-clerk' ), 'type' => 'color', 'example' => '#ffffff' ),
-		'colorBackground'        => array( 'label' => __( 'Card background', 'desk-clerk' ), 'type' => 'color', 'example' => '#ffffff' ),
-		'colorForeground'        => array( 'label' => __( 'Text color', 'desk-clerk' ), 'type' => 'color', 'example' => '#212126' ),
-		'colorMutedForeground'   => array( 'label' => __( 'Secondary text color', 'desk-clerk' ), 'type' => 'color', 'example' => '#747686' ),
-		'colorInput'             => array( 'label' => __( 'Input background', 'desk-clerk' ), 'type' => 'color', 'example' => '#ffffff' ),
-		'colorInputForeground'   => array( 'label' => __( 'Input text color', 'desk-clerk' ), 'type' => 'color', 'example' => '#212126' ),
-		'colorBorder'            => array( 'label' => __( 'Border color', 'desk-clerk' ), 'type' => 'color', 'example' => '#d9d9de' ),
-		'colorDanger'            => array( 'label' => __( 'Error color', 'desk-clerk' ), 'type' => 'color', 'example' => '#b42318' ),
-		'fontFamily'             => array( 'label' => __( 'Font family', 'desk-clerk' ), 'type' => 'font', 'example' => 'Arial, sans-serif' ),
-		'fontSize'               => array( 'label' => __( 'Font size', 'desk-clerk' ), 'type' => 'length', 'example' => '0.875rem' ),
-		'borderRadius'           => array( 'label' => __( 'Border radius', 'desk-clerk' ), 'type' => 'length', 'example' => '0.375rem' ),
-		'spacing'                => array( 'label' => __( 'Spacing', 'desk-clerk' ), 'type' => 'length', 'example' => '1rem' ),
+		'colorPrimary'           => array( 'label' => __( 'Primary color', 'visitor-components-for-clerk' ), 'type' => 'color', 'example' => '#6c47ff' ),
+		'colorPrimaryForeground' => array( 'label' => __( 'Text on primary color', 'visitor-components-for-clerk' ), 'type' => 'color', 'example' => '#ffffff' ),
+		'colorBackground'        => array( 'label' => __( 'Card background', 'visitor-components-for-clerk' ), 'type' => 'color', 'example' => '#ffffff' ),
+		'colorForeground'        => array( 'label' => __( 'Text color', 'visitor-components-for-clerk' ), 'type' => 'color', 'example' => '#212126' ),
+		'colorMutedForeground'   => array( 'label' => __( 'Secondary text color', 'visitor-components-for-clerk' ), 'type' => 'color', 'example' => '#747686' ),
+		'colorInput'             => array( 'label' => __( 'Input background', 'visitor-components-for-clerk' ), 'type' => 'color', 'example' => '#ffffff' ),
+		'colorInputForeground'   => array( 'label' => __( 'Input text color', 'visitor-components-for-clerk' ), 'type' => 'color', 'example' => '#212126' ),
+		'colorBorder'            => array( 'label' => __( 'Border color', 'visitor-components-for-clerk' ), 'type' => 'color', 'example' => '#d9d9de' ),
+		'colorDanger'            => array( 'label' => __( 'Error color', 'visitor-components-for-clerk' ), 'type' => 'color', 'example' => '#b42318' ),
+		'fontFamily'             => array( 'label' => __( 'Font family', 'visitor-components-for-clerk' ), 'type' => 'font', 'example' => 'Arial, sans-serif' ),
+		'fontSize'               => array( 'label' => __( 'Font size', 'visitor-components-for-clerk' ), 'type' => 'length', 'example' => '0.875rem' ),
+		'borderRadius'           => array( 'label' => __( 'Border radius', 'visitor-components-for-clerk' ), 'type' => 'length', 'example' => '0.375rem' ),
+		'spacing'                => array( 'label' => __( 'Spacing', 'visitor-components-for-clerk' ), 'type' => 'length', 'example' => '1rem' ),
 	);
 }
 
@@ -75,7 +75,7 @@ function plugin_template_clerk_sanitize_variables( $input ) {
 		return array();
 	}
 	if ( ! is_array( $input ) ) {
-		add_settings_error( 'plugin_template_clerk_variables', 'invalid_variables', __( 'Appearance settings could not be saved. The previous overrides were preserved.', 'desk-clerk' ) );
+		add_settings_error( 'plugin_template_clerk_variables', 'invalid_variables', __( 'Appearance settings could not be saved. The previous overrides were preserved.', 'visitor-components-for-clerk' ) );
 		return $previous;
 	}
 	$variables = array();
@@ -86,7 +86,7 @@ function plugin_template_clerk_sanitize_variables( $input ) {
 				$variables[ $name ] = $previous[ $name ];
 			}
 			/* translators: %s: appearance setting label. */
-			add_settings_error( 'plugin_template_clerk_variables', 'invalid_' . $name, sprintf( __( 'Invalid value for %s. Its previous override was preserved.', 'desk-clerk' ), $field['label'] ) );
+			add_settings_error( 'plugin_template_clerk_variables', 'invalid_' . $name, sprintf( __( 'Invalid value for %s. Its previous override was preserved.', 'visitor-components-for-clerk' ), $field['label'] ) );
 		} elseif ( '' !== $value ) {
 			$variables[ $name ] = $value;
 		}
@@ -98,9 +98,9 @@ function plugin_template_clerk_appearance_fields() {
 	$variables = plugin_template_clerk_variables();
 	?>
 	<details class="clerk-settings-section" aria-labelledby="clerk-appearance-title">
-	<summary><h2 id="clerk-appearance-title"><?php esc_html_e( 'Appearance', 'desk-clerk' ); ?></h2></summary>
-	<p><?php esc_html_e( 'Override the selected theme for all Clerk components and dialogs. Leave fields blank to inherit theme defaults. Fonts must already be available on your site; this setting does not load fonts.', 'desk-clerk' ); ?></p>
-	<?php foreach ( array( 'colors' => __( 'Colors', 'desk-clerk' ), 'sizing' => __( 'Typography and sizing', 'desk-clerk' ) ) as $group => $title ) : ?>
+	<summary><h2 id="clerk-appearance-title"><?php esc_html_e( 'Appearance', 'visitor-components-for-clerk' ); ?></h2></summary>
+	<p><?php esc_html_e( 'Override the selected theme for all Clerk components and dialogs. Leave fields blank to inherit theme defaults. Fonts must already be available on your site; this setting does not load fonts.', 'visitor-components-for-clerk' ); ?></p>
+	<?php foreach ( array( 'colors' => __( 'Colors', 'visitor-components-for-clerk' ), 'sizing' => __( 'Typography and sizing', 'visitor-components-for-clerk' ) ) as $group => $title ) : ?>
 		<details class="clerk-settings-group" <?php echo 'colors' === $group ? 'open' : ''; ?>><summary><strong><?php echo esc_html( $title ); ?></strong></summary>
 		<table class="form-table" role="presentation">
 		<?php foreach ( plugin_template_clerk_variable_fields() as $name => $field ) : ?>
@@ -109,11 +109,11 @@ function plugin_template_clerk_appearance_fields() {
 				<td><input id="clerk-<?php echo esc_attr( $name ); ?>" name="plugin_template_clerk_variables[<?php echo esc_attr( $name ); ?>]" type="text" class="<?php echo 'color' === $field['type'] ? 'clerk-color-field' : 'regular-text'; ?>" value="<?php echo esc_attr( $variables[ $name ] ?? '' ); ?>" placeholder="<?php echo esc_attr( $field['example'] ); ?>" aria-describedby="clerk-help-<?php echo esc_attr( $name ); ?>" />
 				<p id="clerk-help-<?php echo esc_attr( $name ); ?>" class="description">
 					<?php if ( 'color' === $field['type'] ) : ?>
-						<?php esc_html_e( 'Choose a color or enter a 3- or 6-digit hex value. Clear to inherit.', 'desk-clerk' ); ?>
+						<?php esc_html_e( 'Choose a color or enter a 3- or 6-digit hex value. Clear to inherit.', 'visitor-components-for-clerk' ); ?>
 					<?php elseif ( 'font' === $field['type'] ) : ?>
-						<?php esc_html_e( 'Enter a font family or comma-separated fallback list. Blank inherits.', 'desk-clerk' ); ?>
+						<?php esc_html_e( 'Enter a font family or comma-separated fallback list. Blank inherits.', 'visitor-components-for-clerk' ); ?>
 					<?php else : ?>
-						<?php esc_html_e( 'Use px, rem, or em. Font size must be positive; radius and spacing also accept 0. Blank inherits.', 'desk-clerk' ); ?>
+						<?php esc_html_e( 'Use px, rem, or em. Font size must be positive; radius and spacing also accept 0. Blank inherits.', 'visitor-components-for-clerk' ); ?>
 					<?php endif; ?>
 					<code><?php echo esc_html( $name ); ?></code>
 				</p></td>
@@ -121,26 +121,26 @@ function plugin_template_clerk_appearance_fields() {
 		<?php endforeach; ?>
 		</table></details>
 	<?php endforeach; ?>
-	<p><button type="submit" class="button" name="plugin_template_clerk_reset_variables" value="1"><?php esc_html_e( 'Reset appearance overrides', 'desk-clerk' ); ?></button></p>
+	<p><button type="submit" class="button" name="plugin_template_clerk_reset_variables" value="1"><?php esc_html_e( 'Reset appearance overrides', 'visitor-components-for-clerk' ); ?></button></p>
 	</details>
 	<?php
 }
 
 function plugin_template_clerk_option_fields() {
 	return array(
-		'socialButtonsPlacement' => array( 'label' => __( 'Social button placement', 'desk-clerk' ), 'type' => 'select', 'choices' => array( 'top' => __( 'Top', 'desk-clerk' ), 'bottom' => __( 'Bottom', 'desk-clerk' ) ) ),
-		'socialButtonsVariant'   => array( 'label' => __( 'Social button style', 'desk-clerk' ), 'type' => 'select', 'choices' => array( 'auto' => __( 'Automatic', 'desk-clerk' ), 'blockButton' => __( 'Full-width buttons', 'desk-clerk' ), 'iconButton' => __( 'Icon buttons', 'desk-clerk' ) ) ),
-		'logoPlacement'          => array( 'label' => __( 'Logo placement', 'desk-clerk' ), 'type' => 'select', 'choices' => array( 'inside' => __( 'Inside card', 'desk-clerk' ), 'outside' => __( 'Outside card', 'desk-clerk' ) ) ),
-		'elevation'              => array( 'label' => __( 'Card elevation', 'desk-clerk' ), 'type' => 'select', 'choices' => array( 'raised' => __( 'Raised', 'desk-clerk' ), 'flush' => __( 'Flush', 'desk-clerk' ) ) ),
-		'animations'             => array( 'label' => __( 'Animations', 'desk-clerk' ), 'type' => 'boolean' ),
-		'autoFocus'              => array( 'label' => __( 'Automatic input focus', 'desk-clerk' ), 'type' => 'boolean' ),
-		'shimmer'                => array( 'label' => __( 'Avatar loading shimmer', 'desk-clerk' ), 'type' => 'boolean' ),
-		'showOptionalFields'     => array( 'label' => __( 'Show optional fields', 'desk-clerk' ), 'type' => 'boolean' ),
-		'helpPageUrl'            => array( 'label' => __( 'Help page URL', 'desk-clerk' ), 'type' => 'url' ),
-		'termsPageUrl'           => array( 'label' => __( 'Terms page URL', 'desk-clerk' ), 'type' => 'url' ),
-		'privacyPageUrl'         => array( 'label' => __( 'Privacy page URL', 'desk-clerk' ), 'type' => 'url' ),
-		'logoImageUrl'           => array( 'label' => __( 'Logo image URL', 'desk-clerk' ), 'type' => 'url' ),
-		'logoLinkUrl'            => array( 'label' => __( 'Logo link URL', 'desk-clerk' ), 'type' => 'url' ),
+		'socialButtonsPlacement' => array( 'label' => __( 'Social button placement', 'visitor-components-for-clerk' ), 'type' => 'select', 'choices' => array( 'top' => __( 'Top', 'visitor-components-for-clerk' ), 'bottom' => __( 'Bottom', 'visitor-components-for-clerk' ) ) ),
+		'socialButtonsVariant'   => array( 'label' => __( 'Social button style', 'visitor-components-for-clerk' ), 'type' => 'select', 'choices' => array( 'auto' => __( 'Automatic', 'visitor-components-for-clerk' ), 'blockButton' => __( 'Full-width buttons', 'visitor-components-for-clerk' ), 'iconButton' => __( 'Icon buttons', 'visitor-components-for-clerk' ) ) ),
+		'logoPlacement'          => array( 'label' => __( 'Logo placement', 'visitor-components-for-clerk' ), 'type' => 'select', 'choices' => array( 'inside' => __( 'Inside card', 'visitor-components-for-clerk' ), 'outside' => __( 'Outside card', 'visitor-components-for-clerk' ) ) ),
+		'elevation'              => array( 'label' => __( 'Card elevation', 'visitor-components-for-clerk' ), 'type' => 'select', 'choices' => array( 'raised' => __( 'Raised', 'visitor-components-for-clerk' ), 'flush' => __( 'Flush', 'visitor-components-for-clerk' ) ) ),
+		'animations'             => array( 'label' => __( 'Animations', 'visitor-components-for-clerk' ), 'type' => 'boolean' ),
+		'autoFocus'              => array( 'label' => __( 'Automatic input focus', 'visitor-components-for-clerk' ), 'type' => 'boolean' ),
+		'shimmer'                => array( 'label' => __( 'Avatar loading shimmer', 'visitor-components-for-clerk' ), 'type' => 'boolean' ),
+		'showOptionalFields'     => array( 'label' => __( 'Show optional fields', 'visitor-components-for-clerk' ), 'type' => 'boolean' ),
+		'helpPageUrl'            => array( 'label' => __( 'Help page URL', 'visitor-components-for-clerk' ), 'type' => 'url' ),
+		'termsPageUrl'           => array( 'label' => __( 'Terms page URL', 'visitor-components-for-clerk' ), 'type' => 'url' ),
+		'privacyPageUrl'         => array( 'label' => __( 'Privacy page URL', 'visitor-components-for-clerk' ), 'type' => 'url' ),
+		'logoImageUrl'           => array( 'label' => __( 'Logo image URL', 'visitor-components-for-clerk' ), 'type' => 'url' ),
+		'logoLinkUrl'            => array( 'label' => __( 'Logo link URL', 'visitor-components-for-clerk' ), 'type' => 'url' ),
 	);
 }
 
@@ -196,7 +196,7 @@ function plugin_template_clerk_sanitize_options( $input ) {
 		return array();
 	}
 	if ( ! is_array( $input ) ) {
-		add_settings_error( 'plugin_template_clerk_options', 'invalid_options', __( 'Appearance options could not be saved. The previous overrides were preserved.', 'desk-clerk' ) );
+		add_settings_error( 'plugin_template_clerk_options', 'invalid_options', __( 'Appearance options could not be saved. The previous overrides were preserved.', 'visitor-components-for-clerk' ) );
 		return $previous;
 	}
 	$options = array();
@@ -207,7 +207,7 @@ function plugin_template_clerk_sanitize_options( $input ) {
 				$options[ $name ] = $previous[ $name ];
 			}
 			/* translators: %s: appearance option label. */
-			add_settings_error( 'plugin_template_clerk_options', 'invalid_' . $name, sprintf( __( 'Invalid value for %s. Its previous override was preserved.', 'desk-clerk' ), $field['label'] ) );
+			add_settings_error( 'plugin_template_clerk_options', 'invalid_' . $name, sprintf( __( 'Invalid value for %s. Its previous override was preserved.', 'visitor-components-for-clerk' ), $field['label'] ) );
 		} elseif ( '' !== $value ) {
 			$options[ $name ] = $value;
 		}
@@ -219,14 +219,14 @@ function plugin_template_clerk_options_fields( $advanced = false ) {
 	$options = plugin_template_clerk_options();
 	?>
 	<?php if ( $advanced ) : ?>
-	<details class="clerk-settings-section clerk-settings-advanced"><summary><h2><?php esc_html_e( 'Advanced', 'desk-clerk' ); ?></h2></summary>
-	<p><?php esc_html_e( 'Fine-tune component behavior. Inherit default follows Clerk’s defaults. These controls do not change WordPress login or permissions.', 'desk-clerk' ); ?></p>
+	<details class="clerk-settings-section clerk-settings-advanced"><summary><h2><?php esc_html_e( 'Advanced', 'visitor-components-for-clerk' ); ?></h2></summary>
+	<p><?php esc_html_e( 'Fine-tune component behavior. Inherit default follows Clerk’s defaults. These controls do not change WordPress login or permissions.', 'visitor-components-for-clerk' ); ?></p>
 	<?php else : ?>
 	<details class="clerk-settings-section" aria-labelledby="clerk-layout-title">
-	<summary><h2 id="clerk-layout-title"><?php esc_html_e( 'Layout and links', 'desk-clerk' ); ?></h2></summary>
-	<p><?php esc_html_e( 'Customize how Clerk components fit your site. Inherit default or blank fields use Clerk’s theme and Dashboard settings. Flush elevation does not affect profile panels, popovers, or modals.', 'desk-clerk' ); ?></p>
+	<summary><h2 id="clerk-layout-title"><?php esc_html_e( 'Layout and links', 'visitor-components-for-clerk' ); ?></h2></summary>
+	<p><?php esc_html_e( 'Customize how Clerk components fit your site. Inherit default or blank fields use Clerk’s theme and Dashboard settings. Flush elevation does not affect profile panels, popovers, or modals.', 'visitor-components-for-clerk' ); ?></p>
 	<?php endif; ?>
-	<?php $groups = $advanced ? array( 'behavior' => __( 'Behavior', 'desk-clerk' ) ) : array( 'layout' => __( 'Component layout', 'desk-clerk' ), 'links' => __( 'Links and logo', 'desk-clerk' ) ); ?>
+	<?php $groups = $advanced ? array( 'behavior' => __( 'Behavior', 'visitor-components-for-clerk' ) ) : array( 'layout' => __( 'Component layout', 'visitor-components-for-clerk' ), 'links' => __( 'Links and logo', 'visitor-components-for-clerk' ) ); ?>
 	<?php foreach ( $groups as $group => $title ) : ?>
 		<?php if ( $advanced ) : ?><h3><?php echo esc_html( $title ); ?></h3><?php endif; ?>
 		<?php if ( ! $advanced ) : ?><details class="clerk-settings-group" <?php echo 'layout' === $group ? 'open' : ''; ?>><summary><strong><?php echo esc_html( $title ); ?></strong></summary><?php endif; ?>
@@ -241,11 +241,11 @@ function plugin_template_clerk_options_fields( $advanced = false ) {
 			<tr><th scope="row"><label for="clerk-option-<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $field['label'] ); ?></label></th><td>
 			<?php if ( 'url' === $field['type'] ) : ?>
 				<input id="clerk-option-<?php echo esc_attr( $name ); ?>" name="plugin_template_clerk_options[<?php echo esc_attr( $name ); ?>]" type="url" class="regular-text" value="<?php echo esc_attr( $value ); ?>" placeholder="https://example.com/" aria-describedby="clerk-option-help-<?php echo esc_attr( $name ); ?>" />
-				<p class="description" id="clerk-option-help-<?php echo esc_attr( $name ); ?>"><?php esc_html_e( 'Full HTTP or HTTPS URL without embedded credentials. Blank inherits.', 'desk-clerk' ); ?></p>
+				<p class="description" id="clerk-option-help-<?php echo esc_attr( $name ); ?>"><?php esc_html_e( 'Full HTTP or HTTPS URL without embedded credentials. Blank inherits.', 'visitor-components-for-clerk' ); ?></p>
 			<?php else : ?>
 				<select id="clerk-option-<?php echo esc_attr( $name ); ?>" name="plugin_template_clerk_options[<?php echo esc_attr( $name ); ?>]">
-					<option value="" <?php selected( $value, '' ); ?>><?php esc_html_e( 'Inherit default', 'desk-clerk' ); ?></option>
-					<?php $choices = 'boolean' === $field['type'] ? array( '1' => __( 'Enabled', 'desk-clerk' ), '0' => __( 'Disabled', 'desk-clerk' ) ) : $field['choices']; ?>
+					<option value="" <?php selected( $value, '' ); ?>><?php esc_html_e( 'Inherit default', 'visitor-components-for-clerk' ); ?></option>
+					<?php $choices = 'boolean' === $field['type'] ? array( '1' => __( 'Enabled', 'visitor-components-for-clerk' ), '0' => __( 'Disabled', 'visitor-components-for-clerk' ) ) : $field['choices']; ?>
 					<?php foreach ( $choices as $choice => $label ) : ?>
 						<option value="<?php echo esc_attr( $choice ); ?>" <?php selected( $value, (string) $choice ); ?>><?php echo esc_html( $label ); ?></option>
 					<?php endforeach; ?>
@@ -257,8 +257,8 @@ function plugin_template_clerk_options_fields( $advanced = false ) {
 	<?php endforeach; ?>
 	<?php if ( $advanced ) : ?>
 	<?php plugin_template_clerk_provider_fields(); ?>
-	<p class="description"><?php esc_html_e( 'Reset appearance options clears both layout/link overrides and advanced behavior overrides. Appearance variables, theme, and publishable key are preserved.', 'desk-clerk' ); ?></p>
-	<p><button type="submit" class="button" name="plugin_template_clerk_reset_options" value="1"><?php esc_html_e( 'Reset appearance options', 'desk-clerk' ); ?></button></p>
+	<p class="description"><?php esc_html_e( 'Reset appearance options clears both layout/link overrides and advanced behavior overrides. Appearance variables, theme, and publishable key are preserved.', 'visitor-components-for-clerk' ); ?></p>
+	<p><button type="submit" class="button" name="plugin_template_clerk_reset_options" value="1"><?php esc_html_e( 'Reset appearance options', 'visitor-components-for-clerk' ); ?></button></p>
 	<?php endif; ?>
 	</details>
 	<?php

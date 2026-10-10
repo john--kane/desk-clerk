@@ -1,6 +1,6 @@
 {
-  "name": "desk-clerk",
-  "version": "0.2.0",
+  "name": "visitor-components-for-clerk",
+  "version": "0.2.2",
   "private": true,
   "description": "Drop-in Clerk visitor components for WordPress blocks and shortcodes.",
   "license": "GPL-2.0-or-later",
@@ -17,7 +17,7 @@
     "env": "wp-env",
     "env:start": "wp-env start",
     "env:stop": "wp-env stop",
-    "plugin:zip": "npm run build && wp-scripts plugin-zip",
+    "plugin:zip": "npm run build && wp-scripts plugin-zip && node scripts/include-release-lockfile.js",
     "test": "wp-scripts test-unit-js --runInBand --watch=false"
   },
   "dependencies": {
@@ -32,6 +32,7 @@
   "devDependencies": {
     "@wordpress/env": "^10.0.0",
     "@wordpress/scripts": "^30.0.0",
+    "adm-zip": "0.5.18",
     "typescript": "~5.9.3"
   },
   "files": [
@@ -40,6 +41,8 @@
     "assets",
     "build",
     "readme.txt",
+    "README.md",
+    "scripts",
     "src",
     "jest.config.js",
     "LICENSE",

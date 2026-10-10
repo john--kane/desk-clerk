@@ -14,14 +14,20 @@ registerBlockType( metadata.name, {
 			<div { ...useBlockProps() }>
 				<strong>
 					<EditorTitle>
-						{ __( 'Template Message', 'desk-clerk' ) }
+						{ __(
+							'Template Message',
+							'visitor-components-for-clerk'
+						) }
 					</EditorTitle>
 				</strong>
 				<RichText
 					tagName="p"
 					value={ attributes.content }
 					onChange={ ( content ) => setAttributes( { content } ) }
-					placeholder={ __( 'Write a message…', 'desk-clerk' ) }
+					placeholder={ __(
+						'Write a message…',
+						'visitor-components-for-clerk'
+					) }
 				/>
 			</div>
 		);

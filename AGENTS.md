@@ -19,7 +19,7 @@ Use Node.js 20.19+ and npm 10+; local WordPress requires Docker running.
 
 ## Coding Style & Naming Conventions
 
-Follow `.editorconfig`: tabs by default, two spaces for JSON, UTF-8, LF endings, and a final newline. Match existing WordPress-style spacing in PHP and JavaScript. Prefix PHP functions with `plugin_template_`; keep the `plugin-template` text domain consistent across PHP, metadata, and translated strings. Use `@wordpress/i18n` for user-facing editor text. Edit source files rather than generated assets.
+Follow `.editorconfig`: tabs by default, two spaces for JSON, UTF-8, LF endings, and a final newline. Match existing WordPress-style spacing in PHP and JavaScript. Prefix PHP functions with `plugin_template_`; keep the `visitor-components-for-clerk` text domain consistent across PHP, metadata, and translated strings. Use `@wordpress/i18n` for user-facing editor text. Edit source files rather than generated assets.
 
 ## Testing Guidelines
 

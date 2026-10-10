@@ -1,6 +1,10 @@
-# Desk Clerk for WordPress
+# Visitor Components for Clerk
 
-Published package slug: `desk-clerk`. Author: John Kane (`devjkane`).
+Requested submission slug: `visitor-components-for-clerk` (pending WordPress.org
+allocation and review). Author: John Kane (`devjkane`).
+
+An independent integration by John Kane. Not affiliated with, endorsed by, or
+maintained by Clerk.
 
 Drop Clerk's prebuilt visitor components into posts, pages, block-theme templates,
 and shortcode-enabled widget/page-builder areas. WordPress accounts and login
@@ -9,16 +13,16 @@ remain separate. The original **Template Message** block remains available.
 ## Install and configure
 
 1. Upload the release ZIP through **Plugins → Add New → Upload Plugin** and activate
-   **Desk Clerk**. WordPress 6.3+ and PHP 8.2+ are required.
+   **Visitor Components for Clerk**. WordPress 6.3+ and PHP 8.2+ are required.
 2. Create a Clerk application and copy its **publishable key** from the Clerk
    Dashboard. Use a `pk_test_…` key for testing and `pk_live_…` for production.
-3. Under **Settings → Desk Clerk**, paste the publishable key and save. Never enter a
+3. Under **Settings → Visitor Components for Clerk**, paste the publishable key and save. Never enter a
    Clerk secret key. An invalid submission preserves the previous valid setting;
    clearing the field disconnects the application.
 4. Configure your production domain and permitted authentication/redirect origins
    in Clerk before going live. Production Clerk applications need HTTPS. Your
    browser must be allowed to contact the application's Clerk Frontend API domain.
-5. Choose a **Theme** under **Settings → Desk Clerk** and save: Default, Simple, Dark,
+5. Choose a **Theme** under **Settings → Visitor Components for Clerk** and save: Default, Simple, Dark,
    Shades of Purple, Neobrutalism, or shadcn. The selection applies to every Clerk
    component and dialog. Default retains Clerk’s built-in appearance; shadcn
    requires compatible shadcn CSS variables and utility styles from your WordPress
@@ -48,7 +52,7 @@ and an editor nonce. Reload the editor if the preview expires.
 
 ## Provider parameters
 
-Under **Settings → Desk Clerk → Advanced → Provider parameters**, set navigation URLs
+Under **Settings → Visitor Components for Clerk → Advanced → Provider parameters**, set navigation URLs
 such as `afterSignOutUrl`, sign-in/sign-up page URLs, forced/fallback authentication
 redirects, `waitlistUrl`, and `newSubscriptionRedirectUrl`. Use a site-relative
 path such as `/signed-out/`, or a full HTTP/HTTPS URL without credentials.
@@ -66,7 +70,7 @@ security configuration props from ClerkProvider are not exposed as text fields.
 
 ## Experimental localization
 
-Under **Settings → Desk Clerk → Experimental**, enable **Use the WordPress language
+Under **Settings → Visitor Components for Clerk → Experimental**, enable **Use the WordPress language
 for Clerk components** and save. Localization is off by default. Components,
 dialogs, and live editor previews follow **Settings → General → Site Language**,
 or the current page locale supplied through WordPress by a multilingual plugin.
@@ -80,7 +84,7 @@ Google One Tap prompts are outside this setting.
 
 ## Appearance overrides
 
-Under **Settings → Desk Clerk → Appearance**, expand **Colors** or
+Under **Settings → Visitor Components for Clerk → Appearance**, expand **Colors** or
 **Typography and sizing**. Overrides apply to every Clerk component and dialog on
 top of the selected theme.
 
@@ -216,6 +220,57 @@ Check the key, Clerk domain configuration, network blockers, and SDK response.
 For “not configured,” save a valid key. For “assets unavailable,” rebuild the
 plugin or reinstall the complete ZIP. Do not put secret keys into shortcodes.
 
+## External services
+
+Clerk receives browser/network and session/authentication information when
+configured components or Clerk Show blocks render, or an authorized live preview
+is opened. Enabled controls send the data visitors enter, such as email/profile
+information and organization, billing or waitlist actions. Some Clerk features
+may require a paid plan. Clerk's [terms](https://clerk.com/legal/terms) and
+[privacy policy](https://clerk.com/legal/privacy) govern that service.
+
+Google One Tap uses Google's identity service through Clerk for signed-out
+visitors when placed and enabled. Google receives browser/network and
+authentication request information; when a visitor proceeds, the identity
+credential is used to authenticate with Clerk. See Google's
+[terms](https://policies.google.com/terms) and
+[privacy policy](https://policies.google.com/privacy). Other enabled identity
+providers are contacted when visitors choose their sign-in methods; site owners
+should identify those providers in their privacy notice.
+
+Clerk Billing uses [Stripe](https://stripe.com/legal/ssa) for payment processing
+when enabled and a visitor uses a checkout/billing flow. Stripe receives entered
+payment-method details, customer/billing and transaction information, and may
+receive browser/network and fraud-prevention information during payment
+collection. See [Stripe's privacy policy](https://stripe.com/privacy) and
+[Clerk Billing documentation](https://clerk.com/docs/guides/billing/overview).
+The plugin stores no card details and uses no Stripe secret key.
+
+A configured custom logo image can contact its image host when a component or
+live preview renders. That host receives the image request and browser/network
+information; referrer/cookie behavior depends on browser and host policies.
+Prefer a locally hosted image. If using an external image service, disclose its
+policies in the site's privacy notice. The plugin has no default external logo
+host. Other identity providers are selected in Clerk, not enabled by this plugin;
+see the readme for conditional provider examples and policy links. The readme
+links Apple's Sign in with Apple privacy notice and distinguishes Microsoft
+personal-account policies from the commercial terms/DPA applicable to an
+organization's Microsoft Entra tenant. Site owners must review the policies for
+the providers and external image hosts they choose before enabling them.
+
+WordPress enqueues Clerk UI and Clerk JS asynchronously. The shared runtime waits
+for both scripts, with a 20-second timeout and load-error feedback.
+If either service script fails to download, the component offers **Reload page**
+to retry WordPress's script output. SDK initialization and component errors retain
+in-page **Retry** recovery. Service requests occur only on configured component/
+Show pages or live previews, not ordinary editor pages.
+
+The bundled Clerk translations contain Google Workspace/Microsoft Entra setup
+instructions and SAML claim identifiers. These are text, not directory API
+requests. The plugin does not configure directory synchronization or collect
+Google Workspace service-account keys. See `readme.txt`'s **External services**
+section for the full disclosure and conditions.
+
 ## Development
 
 Use Node.js 20.19+ and npm 10+. Docker is required for local WordPress.
@@ -255,18 +310,19 @@ Mocked lifecycle tests cannot prove those external service flows.
 
 Source lives in `src/`, shared PHP ownership in `includes/`, and generated output
 in ignored `build/`. Preserve block names when publishing content; changing names
-later requires a content migration. Readable source, JavaScript tests, build configuration, and license notices are included
-in release ZIPs. Installed dependencies are omitted; Node.js is unnecessary on
-the installed WordPress site. To rebuild a release ZIP without a repository
-lockfile, run `npm install`, then `npm run build`. Repository checkouts use
-`npm ci` with the committed lockfile. The plugin is GPL-2.0-or-later; bundled
+later requires a content migration. Readable source, JavaScript tests, build
+configuration, the npm lockfile, and license notices are included in release ZIPs.
+Installed dependencies are omitted; Node.js is unnecessary on the installed
+WordPress site. To rebuild a release ZIP or repository checkout, run `npm ci`,
+then `npm run build`. The plugin is GPL-2.0-or-later; bundled
 third-party notices are in `THIRD-PARTY-NOTICES.txt`.
 
 ## Plugin branding
 
 The settings-page wordmark is in `assets/logo.png`. Block editor headings use
-the desk icon in `assets/component-logo.png`. WordPress.org listing icons
-are in `directory-assets/icon-128x128.png` and `directory-assets/icon-256x256.png`.
+the original desk illustration in `assets/component-logo.png`, also used for
+the listing assets in `directory-assets/icon-128x128.png` and
+`directory-assets/icon-256x256.png`.
 Upload these icons to the directory SVN repository’s top-level `assets/` folder;
 listing artwork is separate from the installable plugin ZIP.
 

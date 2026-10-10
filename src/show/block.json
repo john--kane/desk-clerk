@@ -2,12 +2,12 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "clerk/show",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "title": "Clerk Show",
   "category": "clerk",
   "icon": "visibility",
   "description": "Show nested blocks to signed-in or signed-out Clerk visitors. Visibility only; content remains public.",
-  "textdomain": "desk-clerk",
+  "textdomain": "visitor-components-for-clerk",
   "attributes": {
     "condition": {
       "type": "string",

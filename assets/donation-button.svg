@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Original Desk Clerk artwork. SPDX-License-Identifier: GPL-2.0-or-later -->
+<!-- Original Visitor Components for Clerk artwork. SPDX-License-Identifier: GPL-2.0-or-later -->
 <svg xmlns="http://www.w3.org/2000/svg" width="227" height="64" viewBox="0 0 227 64">
   <title>Buy me a coffee</title>
-  <metadata>Original artwork for Desk Clerk, 2026. Licensed under GPL-2.0-or-later; see LICENSE.</metadata>
+  <metadata>Original artwork for Visitor Components for Clerk, 2026. Licensed under GPL-2.0-or-later; see LICENSE.</metadata>
   <rect x="1" y="1" width="225" height="62" rx="12" fill="#ffdd00" stroke="#e5c500" stroke-width="2"/>
   <circle cx="34" cy="32" r="22" fill="#ffdd00"/>
   <path d="M26 20c-3-3 3-4 0-7m9 7c-3-3 3-4 0-7" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/>

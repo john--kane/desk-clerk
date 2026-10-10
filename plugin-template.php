@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name: Desk Clerk
+ * Plugin Name: Visitor Components for Clerk
  * Description: Drop-in Clerk visitor components for WordPress blocks and shortcodes.
- * Version: 0.2.0
+ * Version: 0.2.2
  * Author: John Kane
  * Requires at least: 6.3
  * Requires PHP: 8.2
  * License: GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: desk-clerk
+ * Text Domain: visitor-components-for-clerk
  *
  * @package PluginTemplate
  */

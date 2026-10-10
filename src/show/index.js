@@ -20,12 +20,18 @@ registerBlockType( metadata.name, {
 				<Placeholder
 					label={
 						<EditorTitle>
-							{ __( 'Clerk Show', 'desk-clerk' ) }
+							{ __(
+								'Clerk Show',
+								'visitor-components-for-clerk'
+							) }
 						</EditorTitle>
 					}
 				>
 					<SelectControl
-						label={ __( 'Show content when', 'desk-clerk' ) }
+						label={ __(
+							'Show content when',
+							'visitor-components-for-clerk'
+						) }
 						value={ attributes.condition }
 						onChange={ ( condition ) =>
 							setAttributes( { condition } )
@@ -35,14 +41,14 @@ registerBlockType( metadata.name, {
 								value: 'signed-in',
 								label: __(
 									'Visitor is signed in to Clerk',
-									'desk-clerk'
+									'visitor-components-for-clerk'
 								),
 							},
 							{
 								value: 'signed-out',
 								label: __(
 									'Visitor is signed out of Clerk',
-									'desk-clerk'
+									'visitor-components-for-clerk'
 								),
 							},
 						] }
@@ -50,7 +56,7 @@ registerBlockType( metadata.name, {
 					<Notice status="info" isDismissible={ false }>
 						{ __(
 							'Visibility only. Content remains in public page HTML. Do not place private information here. WordPress login is separate.',
-							'desk-clerk'
+							'visitor-components-for-clerk'
 						) }
 					</Notice>
 				</Placeholder>

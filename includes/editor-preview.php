@@ -12,7 +12,7 @@ function plugin_template_clerk_preview_attributes( $query ) {
 	$component = $query['component'] ?? 'sign-in';
 	$payer = $query['for'] ?? 'user';
 	if ( ! is_string( $component ) || ! in_array( $component, plugin_template_clerk_components(), true ) || ! in_array( $payer, array( 'user', 'organization' ), true ) ) {
-		return new WP_Error( 'invalid_preview', __( 'Select a supported Clerk component and plan type.', 'desk-clerk' ) );
+		return new WP_Error( 'invalid_preview', __( 'Select a supported Clerk component and plan type.', 'visitor-components-for-clerk' ) );
 	}
 	return array( 'component' => $component, 'for' => $payer );
 }
@@ -33,7 +33,7 @@ function plugin_template_clerk_editor_preview() {
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- The permission helper verifies this nonce before rendering.
 	$nonce = is_string( $_GET['plugin_template_clerk_preview'] ) ? sanitize_text_field( wp_unslash( $_GET['plugin_template_clerk_preview'] ) ) : '';
 	if ( ! plugin_template_clerk_can_preview( $nonce ) ) {
-		wp_die( esc_html__( 'This Clerk preview has expired or you do not have permission. Reload the WordPress editor.', 'desk-clerk' ), '', array( 'response' => 403 ) );
+		wp_die( esc_html__( 'This Clerk preview has expired or you do not have permission. Reload the WordPress editor.', 'visitor-components-for-clerk' ), '', array( 'response' => 403 ) );
 	}
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified above; the helper strictly allowlists component and plan values.
 	$attributes = plugin_template_clerk_preview_attributes( wp_unslash( $_GET ) );
@@ -46,19 +46,19 @@ function plugin_template_clerk_editor_preview() {
 	$html = plugin_template_clerk_render( $attributes );
 	wp_add_inline_script( 'clerk-component-view-script', 'if (window.pluginTemplateClerk) { window.pluginTemplateClerk.editorPreview = true; }', 'before' );
 	wp_enqueue_script( 'plugin-template-clerk-preview-sizing', plugins_url( 'assets/editor-preview.js', dirname( __DIR__ ) . '/plugin-template.php' ), array(), filemtime( dirname( __DIR__ ) . '/assets/editor-preview.js' ), true );
+	wp_enqueue_style( 'plugin-template-clerk-preview', plugins_url( 'assets/editor-preview.css', dirname( __DIR__ ) . '/plugin-template.php' ), array(), filemtime( dirname( __DIR__ ) . '/assets/editor-preview.css' ) );
 	?>
 	<!doctype html>
 	<html <?php language_attributes(); ?>>
 	<head>
 		<meta charset="<?php echo esc_attr( get_option( 'blog_charset' ) ); ?>" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title><?php esc_html_e( 'Clerk live preview', 'desk-clerk' ); ?></title>
-		<?php wp_print_styles( array( 'clerk-component-style' ) ); ?>
-		<style>body{margin:0;padding:16px;box-sizing:border-box;font-family:system-ui,sans-serif;background:transparent}.clerk-component{display:flex;justify-content:center;flex-wrap:wrap}</style>
+		<title><?php esc_html_e( 'Clerk live preview', 'visitor-components-for-clerk' ); ?></title>
+		<?php wp_print_styles( array( 'clerk-component-style', 'plugin-template-clerk-preview' ) ); ?>
 	</head>
 	<body>
 		<?php echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- plugin_template_clerk_render() escapes all dynamic output; retain its data attributes. ?>
-		<?php wp_print_scripts( array( 'clerk-component-view-script', 'plugin-template-clerk-preview-sizing' ) ); ?>
+		<?php wp_print_scripts( array( 'plugin-template-clerk-ui', 'plugin-template-clerk-sdk', 'clerk-component-view-script', 'plugin-template-clerk-preview-sizing' ) ); ?>
 	</body>
 	</html>
 	<?php

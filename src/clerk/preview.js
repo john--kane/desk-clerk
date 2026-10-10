@@ -47,7 +47,10 @@ function PreviewFrame( { src } ) {
 		<iframe
 			ref={ frame }
 			src={ src }
-			title={ __( 'Clerk live component preview', 'desk-clerk' ) }
+			title={ __(
+				'Clerk live component preview',
+				'visitor-components-for-clerk'
+			) }
 			height={ height }
 			onLoad={ fitContents }
 			allow="identity-credentials-get"
@@ -68,7 +71,7 @@ export default function Preview( { component, payer } ) {
 			<Notice status="warning" isDismissible={ false }>
 				{ __(
 					'Reload the editor to enable Clerk live previews.',
-					'desk-clerk'
+					'visitor-components-for-clerk'
 				) }
 			</Notice>
 		);
@@ -79,7 +82,9 @@ export default function Preview( { component, payer } ) {
 	return (
 		<div className="clerk-editor-preview">
 			<div className="clerk-editor-preview-toolbar">
-				<strong>{ __( 'Live preview', 'desk-clerk' ) }</strong>
+				<strong>
+					{ __( 'Live preview', 'visitor-components-for-clerk' ) }
+				</strong>
 				<Button
 					variant="secondary"
 					aria-expanded={ open }
@@ -87,8 +92,8 @@ export default function Preview( { component, payer } ) {
 					onClick={ () => setOpen( ( visible ) => ! visible ) }
 				>
 					{ open
-						? __( 'Close Preview', 'desk-clerk' )
-						: __( 'Open Preview', 'desk-clerk' ) }
+						? __( 'Close Preview', 'visitor-components-for-clerk' )
+						: __( 'Open Preview', 'visitor-components-for-clerk' ) }
 				</Button>
 				{ open && (
 					<>
@@ -96,7 +101,10 @@ export default function Preview( { component, payer } ) {
 							variant="secondary"
 							onClick={ () => setRevision( revision + 1 ) }
 						>
-							{ __( 'Refresh preview', 'desk-clerk' ) }
+							{ __(
+								'Refresh preview',
+								'visitor-components-for-clerk'
+							) }
 						</Button>
 						<Button
 							variant="link"
@@ -104,7 +112,10 @@ export default function Preview( { component, payer } ) {
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							{ __( 'Open in new tab', 'desk-clerk' ) }
+							{ __(
+								'Open in new tab',
+								'visitor-components-for-clerk'
+							) }
 						</Button>
 					</>
 				) }
@@ -115,7 +126,7 @@ export default function Preview( { component, payer } ) {
 						<p className="clerk-editor-preview-help">
 							{ __(
 								'Uses your Clerk visitor session. Interactions affect your Clerk account. Refresh after changing Clerk settings. Site theme styles may differ.',
-								'desk-clerk'
+								'visitor-components-for-clerk'
 							) }
 						</p>
 						<PreviewFrame

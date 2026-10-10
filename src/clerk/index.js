@@ -36,7 +36,10 @@ function Edit( { attributes, setAttributes, name } ) {
 			>
 				{ component === 'pricing-table' && (
 					<SelectControl
-						label={ __( 'Plans for', 'desk-clerk' ) }
+						label={ __(
+							'Plans for',
+							'visitor-components-for-clerk'
+						) }
 						value={ attributes.for }
 						onChange={ ( payer ) =>
 							setAttributes( { for: payer } )
@@ -44,16 +47,22 @@ function Edit( { attributes, setAttributes, name } ) {
 						options={ [
 							{
 								value: 'user',
-								label: __( 'Users', 'desk-clerk' ),
+								label: __(
+									'Users',
+									'visitor-components-for-clerk'
+								),
 							},
 							{
 								value: 'organization',
-								label: __( 'Organizations', 'desk-clerk' ),
+								label: __(
+									'Organizations',
+									'visitor-components-for-clerk'
+								),
 							},
 						] }
 						help={ __(
 							'Requires Clerk Billing and published plans. Organization plans also require a signed-in visitor and an active organization.',
-							'desk-clerk'
+							'visitor-components-for-clerk'
 						) }
 					/>
 				) }
@@ -61,7 +70,7 @@ function Edit( { attributes, setAttributes, name } ) {
 					<p>
 						{ __(
 							'Enable Waitlist mode in your Clerk Dashboard before using this component.',
-							'desk-clerk'
+							'visitor-components-for-clerk'
 						) }
 					</p>
 				) }
@@ -69,7 +78,7 @@ function Edit( { attributes, setAttributes, name } ) {
 					<p>
 						{ __(
 							'Enable Google and Google One Tap in your Clerk Dashboard. This is a browser-controlled prompt for signed-out visitors, not an inline panel. Your browser may suppress it; use Open in new tab to test outside the editor frame.',
-							'desk-clerk'
+							'visitor-components-for-clerk'
 						) }
 					</p>
 				) }
@@ -78,7 +87,7 @@ function Edit( { attributes, setAttributes, name } ) {
 					<p>
 						{ __(
 							'Requires Organizations enabled in Clerk and a signed-in visitor.',
-							'desk-clerk'
+							'visitor-components-for-clerk'
 						) }
 					</p>
 				) }

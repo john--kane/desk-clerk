@@ -8,6 +8,7 @@ const config = {
 		loading: 'Loading Clerk…',
 		error: 'Unable to load Clerk.',
 		retry: 'Retry',
+		reload: 'Reload page',
 		signIn: 'Sign in',
 		signedIn: 'You are signed in.',
 		organization: 'Select an organization.',
@@ -65,19 +66,9 @@ beforeEach( () => {
 	document.body.innerHTML = '';
 	document.head.innerHTML = '';
 	clerk = clerkMock();
-	delete window.Clerk;
-	delete window.__internal_ClerkUICtor;
-	append = jest
-		.spyOn( document.head, 'appendChild' )
-		.mockImplementation( ( script ) => {
-			if ( script.src === config.uiUrl ) {
-				window.__internal_ClerkUICtor = {};
-			} else {
-				window.Clerk = clerk;
-			}
-			queueMicrotask( () => script.dispatchEvent( new Event( 'load' ) ) );
-			return script;
-		} );
+	window.Clerk = clerk;
+	window.__internal_ClerkUICtor = {};
+	append = jest.spyOn( document.head, 'appendChild' );
 } );
 afterEach( () => {
 	runtime?.stop();
@@ -89,7 +80,7 @@ test( 'multiple containers share one SDK initialization', async () => {
 	const b = container( 'sign-up' );
 	runtime = createRuntime( config );
 	await runtime.start();
-	expect( append ).toHaveBeenCalledTimes( 2 );
+	expect( append ).not.toHaveBeenCalled();
 	expect( clerk.load ).toHaveBeenCalledTimes( 1 );
 	expect( clerk.mountSignIn ).toHaveBeenCalledWith(
 		a,
@@ -251,11 +242,8 @@ test( 'organization profile waits for an active organization', async () => {
 	} );
 } );
 
-test( 'failed scripts show an accessible retry and recover on demand', async () => {
-	append.mockImplementationOnce( ( script ) => {
-		queueMicrotask( () => script.dispatchEvent( new Event( 'error' ) ) );
-		return script;
-	} );
+test( 'failed SDK initialization shows an accessible retry and recovers on demand', async () => {
+	clerk.load.mockRejectedValueOnce( new Error( 'Service unavailable' ) );
 	const node = container( 'sign-in' );
 	runtime = createRuntime( config );
 	await runtime.start();
@@ -270,6 +258,97 @@ test( 'failed scripts show an accessible retry and recover on demand', async () 
 		node,
 		expect.any( Object )
 	);
+} );
+
+function serviceTags() {
+	return [ 'ui', 'sdk' ].map( ( name ) => {
+		const script = document.createElement( 'script' );
+		script.id = `plugin-template-clerk-${ name }-js`;
+		document.head.appendChild( script );
+		return script;
+	} );
+}
+
+test( 'waits for asynchronously enqueued service scripts before initializing once', async () => {
+	const [ ui, sdk ] = serviceTags();
+	append.mockClear();
+	delete window.Clerk;
+	delete window.__internal_ClerkUICtor;
+	container( 'sign-in' );
+	container( 'sign-up' );
+	runtime = createRuntime( config );
+	const pending = runtime.start();
+	window.Clerk = clerk;
+	sdk.dispatchEvent( new Event( 'load' ) );
+	expect( clerk.load ).not.toHaveBeenCalled();
+	window.__internal_ClerkUICtor = {};
+	ui.dispatchEvent( new Event( 'load' ) );
+	await pending;
+	expect( clerk.load ).toHaveBeenCalledTimes( 1 );
+	expect( clerk.mountSignIn ).toHaveBeenCalled();
+	expect( clerk.mountSignUp ).toHaveBeenCalled();
+	expect( append ).not.toHaveBeenCalled();
+} );
+
+test( 'stalled WordPress service scripts time out with accessible reload guidance', async () => {
+	jest.useFakeTimers();
+	try {
+		serviceTags();
+		delete window.Clerk;
+		delete window.__internal_ClerkUICtor;
+		const node = container( 'sign-in' );
+		runtime = createRuntime( config );
+		const pending = runtime.start();
+		jest.advanceTimersByTime( 20000 );
+		await pending;
+		expect( node.querySelector( '[role="alert"]' ) ).not.toBeNull();
+		expect( node.querySelector( 'button' ).textContent ).toBe(
+			'Reload page'
+		);
+	} finally {
+		jest.useRealTimers();
+	}
+} );
+
+test( 'an enqueued script error shows reload guidance immediately', async () => {
+	const [ , sdk ] = serviceTags();
+	delete window.Clerk;
+	const node = container( 'sign-in' );
+	runtime = createRuntime( config );
+	const pending = runtime.start();
+	sdk.dispatchEvent( new Event( 'error' ) );
+	await pending;
+	expect( node.querySelector( '[role="alert"]' ) ).not.toBeNull();
+	expect( node.querySelector( 'button' ).textContent ).toBe( 'Reload page' );
+} );
+
+test.each( [ 'Clerk', '__internal_ClerkUICtor' ] )(
+	'missing WordPress-loaded %s offers reload without injecting scripts',
+	async ( globalName ) => {
+		delete window[ globalName ];
+		const node = container( 'sign-in' );
+		runtime = createRuntime( config );
+		await runtime.start();
+		expect( node.querySelector( '[role="alert"]' ).textContent ).toContain(
+			'Unable to load Clerk.'
+		);
+		expect( node.querySelector( 'button' ).textContent ).toBe(
+			'Reload page'
+		);
+		expect( append ).not.toHaveBeenCalled();
+		expect( clerk.load ).not.toHaveBeenCalled();
+	}
+);
+
+test( 'a conflicting existing SDK is rejected without replacing scripts', async () => {
+	clerk.publishableKey = 'pk_test_another_application';
+	const node = container( 'sign-in' );
+	runtime = createRuntime( config );
+	await runtime.start();
+	expect( node.querySelector( '[role="alert"]' ) ).not.toBeNull();
+	expect( node.querySelector( 'button' ).textContent ).toBe( 'Reload page' );
+	expect( clerk.load ).not.toHaveBeenCalled();
+	expect( append ).not.toHaveBeenCalled();
 } );
 
 test( 'unsupported component data cannot call arbitrary SDK methods', async () => {
@@ -552,10 +631,7 @@ test( 'hidden Show branches do not mount nested Clerk components', async () => {
 } );
 
 test( 'Show fails closed and offers retry when the SDK cannot load', async () => {
-	append.mockImplementationOnce( ( script ) => {
-		queueMicrotask( () => script.dispatchEvent( new Event( 'error' ) ) );
-		return script;
-	} );
+	clerk.load.mockRejectedValueOnce( new Error( 'Service unavailable' ) );
 	const signedOut = show( 'signed-out' );
 	runtime = createRuntime( config );
 	await runtime.start();

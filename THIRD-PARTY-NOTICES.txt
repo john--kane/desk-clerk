@@ -57,9 +57,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-Desk Clerk donation button artwork
+Visitor Components for Clerk donation button artwork
 File: assets/donation-button.svg
-Original artwork created for Desk Clerk, 2026.
+Original artwork created for Visitor Components for Clerk, 2026.
 License: GPL-2.0-or-later (see LICENSE).
 This illustration is not Buy Me a Coffee's official logo or button artwork.
 The ordinary link opens https://buymeacoffee.com/johnkane; receiving donations

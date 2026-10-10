@@ -1,0 +1,13 @@
+body {
+	margin: 0;
+	padding: 16px;
+	box-sizing: border-box;
+	font-family: system-ui, sans-serif;
+	background: transparent;
+}
+
+.clerk-component {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
