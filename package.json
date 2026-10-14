@@ -1,6 +1,6 @@
 {
   "name": "visitor-components-for-clerk",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "description": "Drop-in Clerk visitor components for WordPress blocks and shortcodes.",
   "license": "GPL-2.0-or-later",

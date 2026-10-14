@@ -4,7 +4,7 @@ Tags: authentication, clerk, login, blocks, shortcode
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 0.2.2
+Stable tag: 0.2.3
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,11 @@ Use Clerk Show to nest blocks shown to signed-in or signed-out Clerk visitors.
 Content starts hidden until Clerk loads and follows session changes. This controls
 visibility only: all nested content remains in public HTML. Do not use it to protect
 private content or authorize access. WordPress login stays separate.
+Nested output is filtered using WordPress's permitted post HTML, retaining the
+hidden div attribute for nested Show compatibility. Ordinary blocks
+and Clerk components are supported; scripts, iframe embeds, forms, and other
+markup not permitted in post HTML may be removed. Place those blocks outside
+Clerk Show.
 
 Readable JavaScript/SCSS source and build tools are included in the release ZIP.
 See README.md for rebuilding and THIRD-PARTY-NOTICES.txt for bundled licenses.
@@ -182,6 +187,10 @@ No donation-service scripts, fonts, or remote images are loaded by this plugin.
    shortcode, and view the published page.
 
 == Changelog ==
+
+= 0.2.3 =
+Filter Clerk Show nested output using WordPress's permitted post HTML.
+Preserve ordinary block markup and nested Clerk component visibility attributes.
 
 = 0.2.2 =
 Rename to Visitor Components for Clerk and update the text domain.

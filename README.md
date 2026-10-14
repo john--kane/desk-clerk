@@ -186,10 +186,16 @@ current page. Clerk manages cross-flow links according to its application settin
 ## Conditional content with Clerk Show
 
 Insert **Clerk Show**, choose **Visitor is signed in to Clerk** or **Visitor is
-signed out of Clerk**, and add any nested WordPress blocks. Both conditions remain
+signed out of Clerk**, and add nested WordPress blocks. Both conditions remain
 hidden until Clerk loads; visibility then follows the Clerk session, including
 sign-in/out changes. Nested Clerk components mount only in visible branches.
 The editor shows the nested content for editing, regardless of the author's login.
+
+Nested output is filtered with `wp_kses()` using WordPress's permitted post HTML,
+plus `hidden` on divs for nested Show compatibility. Ordinary blocks and Clerk
+components retain their markup and data attributes. Scripts, iframe embeds,
+forms, and other markup not permitted in post
+HTML may be removed; place those blocks outside Clerk Show.
 
 This controls browser visibility only. All nested content remains in public page
 HTML and caches; do not use it for private content or authorization. WordPress

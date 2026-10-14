@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Visitor Components for Clerk
  * Description: Drop-in Clerk visitor components for WordPress blocks and shortcodes.
- * Version: 0.2.2
+ * Version: 0.2.3
  * Author: John Kane
  * Requires at least: 6.3
  * Requires PHP: 8.2

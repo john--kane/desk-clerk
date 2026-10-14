@@ -162,6 +162,19 @@ try {
 	clerk_check( plugin_template_clerk_render_show( array( 'condition' => 'bad' ), $show_content ) === '', 'Reject unsupported Show conditions.' );
 	$show_block = render_block( array( 'blockName' => 'clerk/show', 'attrs' => array( 'condition' => 'signed-out' ), 'innerBlocks' => array(), 'innerHTML' => $show_content, 'innerContent' => array( $show_content ) ) );
 	clerk_check( str_contains( $show_block, 'data-clerk-show="signed-out" hidden' ) && str_contains( $show_block, $show_content ), 'Registered Show block renders saved nested content.' );
+	$safe_content = '<p class="wp-block-paragraph">Hello <strong>visitor</strong> <a href="https://example.test/account/">Account</a></p>';
+	$unsafe_content = $safe_content . '<script>alert(1)</script><img src="https://example.test/image.png" onerror="alert(1)"><a href="javascript:alert(1)" onclick="alert(1)">Unsafe link</a>';
+	foreach ( array( 'signed-in', 'signed-out' ) as $condition ) {
+		$filtered_show = render_block( array( 'blockName' => 'clerk/show', 'attrs' => array( 'condition' => $condition ), 'innerBlocks' => array(), 'innerHTML' => $unsafe_content, 'innerContent' => array( $unsafe_content ) ) );
+		clerk_check( ! str_contains( $filtered_show, '<script' ), 'Show removes scripts from nested content for ' . $condition );
+		clerk_check( ! str_contains( $filtered_show, 'onerror' ) && ! str_contains( $filtered_show, 'onclick' ), 'Show removes inline event handlers for ' . $condition );
+		clerk_check( ! str_contains( $filtered_show, 'javascript:' ), 'Show removes unsafe link protocols for ' . $condition );
+		clerk_check( str_contains( $filtered_show, $safe_content ), 'Show preserves ordinary nested block HTML for ' . $condition );
+		clerk_check( str_contains( $filtered_show, 'data-clerk-show="' . $condition . '" hidden' ), 'Filtering preserves the hidden visibility wrapper for ' . $condition );
+	}
+	$nested_show = do_blocks( '<!-- wp:clerk/show {"condition":"signed-in"} --><!-- wp:clerk/pricing-table {"for":"organization"} /--><!-- wp:clerk/show {"condition":"signed-out"} --><!-- wp:paragraph --><p>Signed out</p><!-- /wp:paragraph --><!-- /wp:clerk/show --><!-- /wp:clerk/show -->' );
+	clerk_check( str_contains( $nested_show, 'data-clerk-component="pricing-table"' ) && str_contains( $nested_show, 'data-clerk-for="organization"' ), 'Show preserves nested Clerk component data attributes.' );
+	clerk_check( str_contains( $nested_show, 'data-clerk-show="signed-out" hidden' ) && str_contains( $nested_show, 'data-clerk-show-feedback' ), 'Show preserves nested Show visibility and feedback attributes.' );
 	clerk_check( do_shortcode( '[clerk component="bad"]' ) === '', 'Unknown component must not render.' );
 	clerk_check( plugin_template_clerk_render( array( 'component' => '"><script>alert(1)</script>' ) ) === '', 'Reject injected attributes.' );
 	clerk_check( plugin_template_clerk_render( array( 'component' => array() ) ) === '', 'Reject non-string component attributes.' );
@@ -181,6 +194,7 @@ try {
 	clerk_check( ! str_contains( $html, 'pk_test_' ), 'No key in missing-configuration markup.' );
 	$unconfigured_show = plugin_template_clerk_render_show( array( 'condition' => 'signed-out' ), $show_content );
 	clerk_check( str_contains( $unconfigured_show, 'data-clerk-show="signed-out" hidden' ) && str_contains( $unconfigured_show, 'not configured' ), 'Unconfigured Show stays hidden and supplies configuration guidance.' );
+	clerk_check( ! str_contains( plugin_template_clerk_render_show( array( 'condition' => 'signed-out' ), $unsafe_content ), '<script' ), 'Unconfigured Show also filters nested content.' );
 	WP_CLI::success( 'Clerk settings and rendering integration assertions passed.' );
 } finally {
 	if ( false === $previous_provider ) {

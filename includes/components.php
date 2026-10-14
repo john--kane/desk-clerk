@@ -90,7 +90,10 @@ function plugin_template_clerk_render_show( $attributes, $content ) {
 	}
 	$config = plugin_template_clerk_enqueue();
 	$feedback = is_wp_error( $config ) ? $config->get_error_message() : $config['messages']['loading'];
-	return '<div class="clerk-show-wrapper"><div class="clerk-show" data-clerk-show="' . esc_attr( $condition ) . '" hidden>' . $content . '</div><div data-clerk-show-feedback><p role="status">' . esc_html( $feedback ) . '</p></div></div>';
+	$allowed_html = wp_kses_allowed_html( 'post' );
+	// WordPress 6.3 omits hidden; nested Show branches must remain hidden until Clerk resolves them.
+	$allowed_html['div']['hidden'] = true;
+	return '<div class="clerk-show-wrapper"><div class="clerk-show" data-clerk-show="' . esc_attr( $condition ) . '" hidden>' . wp_kses( $content, $allowed_html ) . '</div><div data-clerk-show-feedback><p role="status">' . esc_html( $feedback ) . '</p></div></div>';
 }
 
 function plugin_template_clerk_shortcode( $attributes ) {
